@@ -1,0 +1,140 @@
+﻿@page "/"
+
+<PageTitle>Calculadora Bitcoin</PageTitle>
+
+<MudPaper Elevation="0"
+    Class="mt-14 mb-5"
+    Style="background-color: #111b21; color: #ffffff">
+    <MudStack>
+        <MudPaper Elevation="0"
+            Class="mud-theme-surface" 
+            Style="background-color: #111b21; color: #ffffff">
+            <MudText Align="Align.Center" Typo="Typo.h3">Calcule seus ganhos com Bitcoin</MudText>
+        </MudPaper>
+        <MudPaper 
+            Elevation="0" 
+            Style="background-color: #111b21; color: #ffffff">
+            <MudText Align="Align.Center" 
+            Typo="Typo.h5"
+            >faça simulações precisas de compra e 
+            venda de bitcoin e maximize seus 
+            lucros com nossa calculadora inteligente
+        </MudText>
+        </MudPaper>
+    </MudStack>
+
+
+    @* box de dados da Home para telas de Medias e maiores *@
+    <MudHidden Invert="true"
+               Breakpoint="Breakpoint.SmAndUp">
+        <MudStack Row="true"
+                  Justify="Justify.Center"
+                  Class="mt-20 d-flex"
+                  AlignItems="AlignItems.Center">
+
+            <MudPaper Style="background-color: #2a3b45;"
+                Elevation="3"
+                Height="140px" 
+                Width="30%" 
+                Class="d-flex flex-column">
+
+                <MudStack Row="true">
+                    <MudPaper 
+                        Elevation="0"
+                        Style="background-color: #2a3b45;"
+                        Width="100%" 
+                        Class="mt-5 mx-5 d-flex">
+
+                        <MudIcon 
+                            Color="Color.Warning"
+                                 Icon="@Icons.Material.Rounded.CurrencyBitcoin" Size="Size.Medium" />
+
+                        <MudText Class="ml-2" Style="color:white">Bitcoin</MudText>
+
+                        <MudSpacer />
+
+                        <MudText Typo="Typo.body1" Style="color: white;">Valor investido</MudText>
+                    </MudPaper>
+
+                </MudStack>
+
+                <MudPaper 
+                    Elevation="0"
+                    Style="background-color: #2a3b45;"
+                    Class="mt-2 mx-5">
+                    <MudText Typo="Typo.h3" Style="color: white;">Box1</MudText>
+                    <MudPaper Class="d-flex" Elevation="0">
+                        <MudIcon Icon="@Icons.Material.Rounded.ArrowUpward" />
+                        <MudText Typo="Typo.subtitle1" Style="color: white;">Box1</MudText>
+                    </MudPaper>
+                    
+                </MudPaper>
+
+
+            </MudPaper>
+
+            <MudPaper 
+                Height="140px" 
+                Width="30%" 
+                Class="d-flex flex-column" 
+                Style="background-color: #2a3b45;">
+
+                <MudStack Row="true">
+                    <MudPaper Elevation="0"
+                              Style="background-color: #2a3b45;"
+                              Width="100%"
+                              Class="mt-5 mx-5 d-flex">
+
+                        <MudIcon Color="Color.Warning"
+                                 Icon="@Icons.Material.Rounded.CurrencyExchange" Size="Size.Medium" />
+
+                        <MudText Class="ml-3" Style="color:white">Dólar</MudText>
+
+                        <MudSpacer />
+
+                        <MudText Typo="Typo.body1" Style="color: white;">USD/BRL</MudText>
+                    </MudPaper>
+
+                </MudStack>
+
+                <MudText Typo="Typo.h3" Style="color: white;">R$ 5,50</MudText>
+            </MudPaper>
+
+        </MudStack>
+    </MudHidden>
+
+
+    @* Boxes Inicial para telas pequenas *@
+    <MudHidden Invert="true"
+               Breakpoint="Breakpoint.Xs">
+        <MudStack
+                  Justify="Justify.Center"
+                  Class="mt-20 d-flex"
+                  AlignItems="AlignItems.Center">
+
+            <MudPaper Height="140px" Width="70%" Class="d-flex flex-column">
+
+                <MudStack Row="true">
+                    <MudIcon Color="Color.Warning" Icon="@Icons.Material.Rounded.CurrencyBitcoin" Size="Size.Medium" />
+                    <MudText Typo="Typo.body1">Valor investido</MudText>
+                </MudStack>
+
+                <MudText Typo="Typo.h3">Box1</MudText>
+            </MudPaper>
+
+            <MudPaper Height="140px" Width="70%" Class="d-flex flex-column">
+
+                <MudStack Row="true">
+                    <MudIcon Color="Color.Warning" Icon="@Icons.Material.Rounded.MonetizationOn" Size="Size.Medium" />
+                    <MudText Typo="Typo.body1">Dolár</MudText>
+                </MudStack>
+
+                <MudText Typo="Typo.h3">205000</MudText>
+            </MudPaper>
+
+        </MudStack>
+    </MudHidden>
+
+    //Todo: Adicionar responsividade a os 2 widgets da primeira ss, verificvar tamamho da tela ao carregar.
+
+</MudPaper>

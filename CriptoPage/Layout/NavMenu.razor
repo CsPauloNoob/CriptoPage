@@ -1,0 +1,35 @@
+﻿<MudAppBar style="background-color: #111b21">
+    <MudImage Fluid="true"
+        Style="width: auto; height: 90%"
+        Src="images/bitcoin-logo.svg" />
+
+        <MudText Typo="Typo.h5">BitcoinCalc</MudText>
+
+        <MudSpacer/>
+
+        <MudHidden Invert="true" Breakpoint="Breakpoint.Xs">
+        <MudMenu
+            Color="Color.Default"
+            Label="Menu"
+            Variant="Variant.Filled" 
+            EndIcon="@Icons.Material.Filled.KeyboardArrowDown">
+
+                <MudMenuItem>Home</MudMenuItem>
+                <MudMenuItem>Simulador</MudMenuItem>
+                <MudMenuItem>Histórico</MudMenuItem>
+                <MudMenuItem>Contato</MudMenuItem>
+            </MudMenu>
+        </MudHidden>
+
+        <MudHidden Invert="true" 
+            Breakpoint="Breakpoint.SmAndUp">
+
+            <MudStack Row="true">
+                <MudButton Color="Color.Warning">Home</MudButton>
+                <MudButton Color="Color.Warning">Simulador</MudButton>
+                <MudButton Color="Color.Warning">Histórico</MudButton>
+                <MudButton Color="Color.Warning">Contato</MudButton>
+            </MudStack>
+        </MudHidden>
+
+</MudAppBar>
