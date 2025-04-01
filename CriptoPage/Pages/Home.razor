@@ -228,20 +228,9 @@ Style="background-color: #111b21; color: #ffffff">
     Breakpoint="Breakpoint.SmAndUp">
         <MudStack Justify="Justify.Center" Row="true">
 
-            <MudPaper Elevation="1"
+            <MudPaper Elevation="5"
             Style="background-color: #2a3b45; color: white; width: 81%"
-            Class="mt-10 pb-10 justify-center align-self-center flex-grow gap-4">
-
-                @* Titulo *@
-                <MudPaper
-                Elevation="0"
-
-                Class="mb-5 mt-10 ml-4 align-self-center"
-                Style="background-color: #2a3b45; color: white;">
-
-                    <MudText Typo="Typo.h5">Simulador de Investimentos</MudText>
-
-                </MudPaper>
+            Class="mt-10 pb-10 d-flex align-self-center flex-grow gap-4">
 
                 @* Inputs *@
                 <MudPaper
@@ -249,7 +238,18 @@ Style="background-color: #111b21; color: #ffffff">
                 Elevation="0"
                 Width="47%"
                 Style="background-color: #2a3b45; color: white;">
-                    <MudForm Spacing="3">
+
+                @* Titulo *@
+                <MudPaper
+                Elevation="0"
+                Class="mb-5 mt-8 align-self-center"
+                Style="background-color: #2a3b45; color: white;">
+
+                    <MudText Typo="Typo.h5">Simulador de Investimentos</MudText>
+
+                </MudPaper>
+
+                    <MudForm Spacing="8">
 
                         <MudDatePicker
                         Style="background: antiquewhite;"
@@ -297,7 +297,11 @@ Style="background-color: #111b21; color: #ffffff">
                     </MudForm>
 
                 </MudPaper>
-                <p>TESTEEEEEEEEEE</p>
+                
+                <MudPaper Width="50%">
+                    <p>Resultados</p>
+                </MudPaper>
+
             </MudPaper>
 
         </MudStack>
