@@ -1,54 +1,55 @@
 ﻿@page "/"
+@using System.Globalization
 
 <PageTitle>Calculadora Bitcoin</PageTitle>
 
 <MudPaper Elevation="0"
-    Class="mt-14 mb-5"
-    Style="background-color: #111b21; color: #ffffff">
+Class="mt-14 mb-5"
+Style="background-color: #111b21; color: #ffffff">
     <MudStack>
         <MudPaper Elevation="0"
-            Class="mud-theme-surface" 
-            Style="background-color: #111b21; color: #ffffff">
+        Class="mud-theme-surface" 
+        Style="background-color: #111b21; color: #ffffff">
             <MudText Align="Align.Center" Typo="Typo.h3">Calcule seus ganhos com Bitcoin</MudText>
         </MudPaper>
         <MudPaper 
-            Elevation="0" 
-            Style="background-color: #111b21; color: #ffffff">
+        Elevation="0" 
+        Style="background-color: #111b21; color: #ffffff">
             <MudText Align="Align.Center" 
             Typo="Typo.h5"
             >faça simulações precisas de compra e 
-            venda de bitcoin e maximize seus 
-            lucros com nossa calculadora inteligente
-        </MudText>
+                venda de bitcoin e maximize seus 
+                lucros com nossa calculadora inteligente
+            </MudText>
         </MudPaper>
     </MudStack>
 
 
     @* box de dados da Home para telas de Medias e maiores *@
     <MudHidden Invert="true"
-               Breakpoint="Breakpoint.SmAndUp">
+    Breakpoint="Breakpoint.SmAndUp">
         <MudStack Row="true"
-                  Justify="Justify.Center"
-                  Class="mt-20 d-flex"
-                  AlignItems="AlignItems.Center">
+        Justify="Justify.Center"
+        Class="mt-20 d-flex"
+        AlignItems="AlignItems.Center">
 
             @* Box 1 *@
             <MudPaper Style="background-color: #2a3b45;"
-                Elevation="3"
-                Height="140px" 
-                Width="40%" 
-                Class="d-flex flex-column">
+            Elevation="3"
+            Height="140px" 
+            Width="40%" 
+            Class="d-flex flex-column">
 
                 <MudStack Row="true">
                     <MudPaper 
-                        Elevation="0"
-                        Style="background-color: #2a3b45;"
-                        Width="100%" 
-                        Class="mt-5 mx-5 d-flex">
+                    Elevation="0"
+                    Style="background-color: #2a3b45;"
+                    Width="100%" 
+                    Class="mt-5 mx-5 d-flex">
 
                         <MudIcon 
-                            Color="Color.Warning"
-                                 Icon="@Icons.Material.Rounded.CurrencyBitcoin" Size="Size.Medium" />
+                        Color="Color.Warning"
+                        Icon="@Icons.Material.Rounded.CurrencyBitcoin" Size="Size.Medium" />
 
                         <MudText Class="ml-2" Style="color:white">Bitcoin</MudText>
 
@@ -59,15 +60,15 @@
                 </MudStack>
 
                 <MudPaper
-                    Elevation="0"
-                    Style="background-color: #2a3b45;"
-                    Class="mt-2 mx-5">
-                    
+                Elevation="0"
+                Style="background-color: #2a3b45;"
+                Class="mt-2 mx-5">
+
                     <MudText Typo="Typo.h4" Style="color: white;">R$ 250.001,00</MudText>
-                    
+
                     <MudPaper Class="d-flex mt-1"
-                              Elevation="0"
-                              Style="background-color: #2a3b45;">
+                    Elevation="0"
+                    Style="background-color: #2a3b45;">
                         <MudIcon Icon="@Icons.Material.Rounded.ArrowUpward" Color="Color.Success"/>
                         <MudText Typo="Typo.subtitle1" Style="color: white;">2,5%</MudText>
                     </MudPaper>
@@ -79,21 +80,21 @@
 
             @* Box 2 *@
             <MudPaper Style="background-color: #2a3b45;"
-                      Elevation="3"
-                      Height="140px"
-                      Width="40%"
-                      Class="d-flex flex-column ml-2">
+            Elevation="3"
+            Height="140px"
+            Width="40%"
+            Class="d-flex flex-column ml-2">
 
                 <MudStack Row="true">
                     <MudPaper
-                        Elevation="0"
-                        Style="background-color: #2a3b45;"
-                        Width="100%"
-                        Class="mt-5 mx-5 d-flex">
+                    Elevation="0"
+                    Style="background-color: #2a3b45;"
+                    Width="100%"
+                    Class="mt-5 mx-5 d-flex">
 
                         <MudIcon
-                            Color="Color.Success"
-                            Icon="@Icons.Material.Rounded.CurrencyExchange" Size="Size.Medium" />
+                        Color="Color.Success"
+                        Icon="@Icons.Material.Rounded.CurrencyExchange" Size="Size.Medium" />
 
                         <MudText Class="ml-2" Style="color:white">Dólar</MudText>
 
@@ -104,15 +105,15 @@
                 </MudStack>
 
                 <MudPaper
-                    Elevation="0"
-                    Style="background-color: #2a3b45;"
-                    Class="mt-2 mx-5">
+                Elevation="0"
+                Style="background-color: #2a3b45;"
+                Class="mt-2 mx-5">
 
                     <MudText Typo="Typo.h4" Style="color: white;">R$ 5,60</MudText>
 
                     <MudPaper Class="d-flex mt-1"
-                              Elevation="0"
-                              Style="background-color: #2a3b45;">
+                    Elevation="0"
+                    Style="background-color: #2a3b45;">
                         <MudIcon Icon="@Icons.Material.Rounded.ArrowDownward" Color="Color.Error"/>
                         <MudText Typo="Typo.subtitle1" Style="color: white;">2,5%</MudText>
                     </MudPaper>
@@ -125,29 +126,29 @@
 
     @* Boxes Inicial para telas pequenas *@
     <MudHidden Invert="true"
-               Breakpoint="Breakpoint.Xs">
+    Breakpoint="Breakpoint.Xs">
         <MudStack
-            Justify="Justify.Center"
-            Class="mt-20 d-flex"
-            AlignItems="AlignItems.Center">
+        Justify="Justify.Center"
+        Class="mt-20 d-flex"
+        AlignItems="AlignItems.Center">
 
             @* Box 1 *@
             <MudPaper Style="background-color: #2a3b45;"
-                      Elevation="3"
-                      Height="140px"
-                      Width="70%"
-                      Class="d-flex flex-column">
+            Elevation="3"
+            Height="140px"
+            Width="70%"
+            Class="d-flex flex-column">
 
                 <MudStack Row="true">
                     <MudPaper
-                        Elevation="0"
-                        Style="background-color: #2a3b45;"
-                        Width="100%"
-                        Class="mt-5 mx-5 d-flex">
+                    Elevation="0"
+                    Style="background-color: #2a3b45;"
+                    Width="100%"
+                    Class="mt-5 mx-5 d-flex">
 
                         <MudIcon
-                            Color="Color.Warning"
-                            Icon="@Icons.Material.Rounded.CurrencyBitcoin" Size="Size.Medium" />
+                        Color="Color.Warning"
+                        Icon="@Icons.Material.Rounded.CurrencyBitcoin" Size="Size.Medium" />
 
                         <MudText Class="ml-2" Style="color:white">Bitcoin</MudText>
 
@@ -158,15 +159,15 @@
                 </MudStack>
 
                 <MudPaper
-                    Elevation="0"
-                    Style="background-color: #2a3b45;"
-                    Class="mt-2 mx-5">
+                Elevation="0"
+                Style="background-color: #2a3b45;"
+                Class="mt-2 mx-5">
 
                     <MudText Typo="Typo.h4" Style="color: white;">R$ 250.010,32</MudText>
 
                     <MudPaper Class="d-flex mt-1"
-                              Elevation="0"
-                              Style="background-color: #2a3b45;">
+                    Elevation="0"
+                    Style="background-color: #2a3b45;">
                         <MudIcon Icon="@Icons.Material.Rounded.ArrowUpward" Color="Color.Success"/>
                         <MudText Typo="Typo.subtitle1" Style="color: white;">2,5%</MudText>
                     </MudPaper>
@@ -178,21 +179,21 @@
 
             @* Box 2 *@
             <MudPaper Style="background-color: #2a3b45;"
-                      Elevation="3"
-                      Height="140px"
-                      Width="70%"
-                      Class="d-flex flex-column mt-1">
+            Elevation="3"
+            Height="140px"
+            Width="70%"
+            Class="d-flex flex-column mt-1">
 
                 <MudStack Row="true">
                     <MudPaper
-                        Elevation="0"
-                        Style="background-color: #2a3b45;"
-                        Width="100%"
-                        Class="mt-5 mx-5 d-flex">
+                    Elevation="0"
+                    Style="background-color: #2a3b45;"
+                    Width="100%"
+                    Class="mt-5 mx-5 d-flex">
 
                         <MudIcon
-                            Color="Color.Success"
-                            Icon="@Icons.Material.Rounded.CurrencyExchange" Size="Size.Medium" />
+                        Color="Color.Success"
+                        Icon="@Icons.Material.Rounded.CurrencyExchange" Size="Size.Medium" />
 
                         <MudText Class="ml-2" Style="color:white">Dólar</MudText>
 
@@ -203,15 +204,15 @@
                 </MudStack>
 
                 <MudPaper
-                    Elevation="0"
-                    Style="background-color: #2a3b45;"
-                    Class="mt-2 mx-5">
+                Elevation="0"
+                Style="background-color: #2a3b45;"
+                Class="mt-2 mx-5">
 
                     <MudText Typo="Typo.h4" Style="color: white;">R$ 5,60</MudText>
 
                     <MudPaper Class="d-flex mt-1"
-                              Elevation="0"
-                              Style="background-color: #2a3b45;">
+                    Elevation="0"
+                    Style="background-color: #2a3b45;">
                         <MudIcon Icon="@Icons.Material.Rounded.ArrowDownward" Color="Color.Error"/>
                         <MudText Typo="Typo.subtitle1" Style="color: white;">2,5%</MudText>
                     </MudPaper>
@@ -220,66 +221,87 @@
             </MudPaper>
         </MudStack>
     </MudHidden>
-    
-    
+
+
     @* Input de calculo de histórico de investimento Para telas tablet e maiores*@
     <MudHidden Invert="true"
-               Breakpoint="Breakpoint.SmAndUp">
-        <MudStack Justify="Justify.Center">
-            
+    Breakpoint="Breakpoint.SmAndUp">
+        <MudStack Justify="Justify.Center" Row="true">
+
             <MudPaper Elevation="1"
-                      Style="background-color: #2a3b45; color: white; width: 81%"
-                      Class="mt-10 justify-center align-self-center flex-grow gap-4">
-                
+            Style="background-color: #2a3b45; color: white; width: 81%"
+            Class="mt-10 pb-10 justify-center align-self-center flex-grow gap-4">
+
                 @* Titulo *@
                 <MudPaper
-                    Elevation="0"
+                Elevation="0"
 
-                    Class="mb-5 mt-10 ml-4 align-self-center"
-                    Style="background-color: #2a3b45; color: white;">
+                Class="mb-5 mt-10 ml-4 align-self-center"
+                Style="background-color: #2a3b45; color: white;">
 
                     <MudText Typo="Typo.h5">Simulador de Investimentos</MudText>
 
                 </MudPaper>
-                
+
                 @* Inputs *@
                 <MudPaper
-                    Class="ml-3"
-                    Width="47%"
-                    Style="background-color: #2a3b45; color: white;">
+                Class="ml-3"
+                Elevation="0"
+                Width="47%"
+                Style="background-color: #2a3b45; color: white;">
                     <MudForm Spacing="3">
-                        
-                        <MudDatePicker
-                            Style="background: antiquewhite;"
-                            Color="Color.Primary"
-                            Label="Data da Compra"
-                            Editable="true"
-                            Mask="@(new DateMask("dd/MM/yyyy"))"
-                            DateFormat="dd/MM/yyyy"
-                            Placeholder="dd/mm/yyyy"
-                            Variant="Variant.Filled"/>
 
                         <MudDatePicker
-                            Style="background: antiquewhite;"
-                            Color="Color.Primary"
-                            Label="Data da Compra"
-                            Editable="true"
-                            Mask="@(new DateMask("dd/MM/yyyy"))"
-                            DateFormat="dd/MM/yyyy"
-                            Placeholder="dd/mm/yyyy"
-                            Variant="Variant.Filled"/>
-                        
-                        <MudNumericField T="decimal" ></MudNumericField>
-                        <MudTextField
-                            Placeholder="sss"
-                            T="string" 
-                            Label="Valor do Investimento"/>
+                        Style="background: antiquewhite;"
+                        Color="Color.Primary"
+                        Label="Data da Compra"
+                        Editable="true"
+                        Mask="@(new DateMask("dd/MM/yyyy"))"
+                        DateFormat="dd/MM/yyyy"
+                        Placeholder="dd/mm/yyyy"
+                        Variant="Variant.Filled"/>
+
+                        <MudDatePicker
+                        Style="background: antiquewhite;"
+                        Color="Color.Primary"
+                        Label="Data da Compra"
+                        Editable="true"
+                        Mask="@(new DateMask("dd/MM/yyyy"))"
+                        DateFormat="dd/MM/yyyy"
+                        Placeholder="dd/mm/yyyy"
+                        Variant="Variant.Filled"/>
+
+                        <MudPaper Elevation="0"
+                        Style="background-color: #2a3b45; color:white;"
+                        Class="d-flex">
+                            <MudTextField Label="Total investido"
+                            T="decimal"
+                            InputMode="InputMode.numeric"
+                            Variant="Variant.Filled"
+                            Placeholder="Ex: R$ 1000"
+                            Style="background: antiquewhite; width:70%"
+                            Adornment="Adornment.Start"
+                            AdornmentIcon="@Icons.Material.Filled.AttachMoney"
+                            AdornmentText="@(IsBRL?"R$ (BRL)":"$ (USD)")"
+                            Culture="@(new CultureInfo("pt-BR"))" />
+
+                            <MudText Class="pt-2" Align="Align.Center">USD</MudText>
+                            <MudSwitch Label="BRL"
+                            UncheckedColor="Color.Warning" 
+                            Color="Color.Success"
+                            Size="Size.Medium"
+                            T="bool"
+                            @bind-Value="IsBRL" />
+                        </MudPaper>
+
                     </MudForm>
+
                 </MudPaper>
-                
+                <p>TESTEEEEEEEEEE</p>
             </MudPaper>
+
         </MudStack>
-        
+
     </MudHidden>
 
 </MudPaper>
@@ -288,5 +310,8 @@ TODO: TErminar a parte de input e implementar a tela de results
 
 @code
 {
-    private string SelectCripto { get; set; } = string.Empty;
+    string SelectCripto { get; set; } = string.Empty;
+    bool IsBRL { get; set; } = true;
+
+    string[] Currency = new string[] { "USDT", "BRL" };
 }
