@@ -16,9 +16,8 @@
             EndIcon="@Icons.Material.Filled.KeyboardArrowDown">
 
                 <MudMenuItem OnClick="NavigateToHome">Home</MudMenuItem>
-                <MudMenuItem>Simulador</MudMenuItem>
-                <MudMenuItem>Histórico</MudMenuItem>
-                <MudMenuItem>Contato</MudMenuItem>
+                <MudMenuItem OnClick="NavigateToSimulacao">Simulador</MudMenuItem>
+                <MudMenuItem OnClick="NavigateToContato">Contato</MudMenuItem>
             </MudMenu>
         </MudHidden>
 
@@ -26,10 +25,9 @@
             Breakpoint="Breakpoint.SmAndUp">
 
             <MudStack Row="true">
-                <MudButton Color="Color.Warning">Home</MudButton>
-                <MudButton Color="Color.Warning">Simulador</MudButton>
-                <MudButton Color="Color.Warning">Histórico</MudButton>
-                <MudButton Color="Color.Warning">Contato</MudButton>
+                <MudButton OnClick="NavigateToHome" Color="Color.Warning">Home</MudButton>
+                <MudButton OnClick="NavigateToSimulacao" Color="Color.Warning">Simulador</MudButton>
+                <MudButton OnClick="NavigateToContato" Color="Color.Warning">Contato</MudButton>
             </MudStack>
         </MudHidden>
 
@@ -42,6 +40,17 @@
 
     private void NavigateToHome()
     {
-        NavigationManager.NavigateTo("#HomeP");
+        NavigationManager.NavigateTo("#hm");
     }
+
+    private void NavigateToSimulacao()
+    {
+        NavigationManager.NavigateTo("#sm");   
+    }
+
+    private void NavigateToContato()
+    {
+        NavigationManager.NavigateTo("#ctt");
+    }
+    
 }
