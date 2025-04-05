@@ -71,8 +71,8 @@ Style="background-color: #111b21; color: #ffffff">
                     <MudPaper Class="d-flex mt-1"
                     Elevation="0"
                     Style="background-color: #2a3b45;">
-                        <MudIcon Icon="@Icons.Material.Rounded.ArrowUpward" Color="Color.Success"/>
-                        <MudText Typo="Typo.subtitle1" Style="color: white;">2,5%</MudText>
+                        <MudIcon Icon="@ArrowIcons[IndexArrowBtc]" Color="@ArrowIndicador[IndexArrowBtc]"/>
+                        <MudText Typo="Typo.subtitle1" Style="color: white;">@PorcentagemBtcDia.ToString("N2")%</MudText>
                     </MudPaper>
 
                 </MudPaper>
@@ -116,8 +116,8 @@ Style="background-color: #111b21; color: #ffffff">
                     <MudPaper Class="d-flex mt-1"
                     Elevation="0"
                     Style="background-color: #2a3b45;">
-                        <MudIcon Icon="@Icons.Material.Rounded.ArrowDownward" Color="Color.Error"/>
-                        <MudText Typo="Typo.subtitle1" Style="color: white;">2,5%</MudText>
+                        <MudIcon Icon="@ArrowIcons[IndexArrowUsdt]" Color="@ArrowIndicador[IndexArrowUsdt]"/>
+                        <MudText Typo="Typo.subtitle1" Style="color: white;">@PorcentagemUsdtDia.ToString("N2")%</MudText>
                     </MudPaper>
 
                 </MudPaper>
@@ -170,8 +170,8 @@ Style="background-color: #111b21; color: #ffffff">
                     <MudPaper Class="d-flex mt-1"
                     Elevation="0"
                     Style="background-color: #2a3b45; flex-wrap: wrap;">
-                        <MudIcon Icon="@Icons.Material.Rounded.ArrowUpward" Color="Color.Success"/>
-                        <MudText Typo="Typo.subtitle1" Style="color: white;">2,5%</MudText>
+                        <MudIcon Icon="@ArrowIcons[IndexArrowBtc]" Color="ArrowIndicador[IndexArrowBtc]"/>
+                        <MudText Typo="Typo.subtitle1" Style="color: white;">@PorcentagemBtcDia.ToString("N2")%</MudText>
                     </MudPaper>
 
                 </MudPaper>
@@ -215,8 +215,8 @@ Style="background-color: #111b21; color: #ffffff">
                     <MudPaper Class="d-flex mt-1"
                     Elevation="0"
                     Style="background-color: #2a3b45;">
-                        <MudIcon Icon="@Icons.Material.Rounded.ArrowDownward" Color="Color.Error"/>
-                        <MudText Typo="Typo.subtitle1" Style="color: white;">2,5%</MudText>
+                        <MudIcon Icon="@ArrowIcons[IndexArrowUsdt]" Color="@ArrowIndicador[IndexArrowUsdt]"/>
+                        <MudText Typo="Typo.subtitle1" Style="color: white;">@PorcentagemUsdtDia.ToString("N2")%</MudText>
                     </MudPaper>
 
                 </MudPaper>
@@ -598,6 +598,12 @@ Style="background-color: #111b21; color: #ffffff">
 {
     string BtcBrlAtual = string.Empty;
     string DolarAtual = string.Empty;
+    double PorcentagemBtcDia = 0;
+    double PorcentagemUsdtDia = 0;
+    Color[] ArrowIndicador = new Color[] { Color.Success, Color.Error };
+    int IndexArrowBtc;
+    int IndexArrowUsdt;
+    string[] ArrowIcons = new string[] { Icons.Material.Rounded.ArrowUpward, Icons.Material.Rounded.ArrowDownward };
 
     DateTime? _dataCompra = null;
     DateTime? _dataVenda = null;
@@ -697,13 +703,35 @@ Style="background-color: #111b21; color: #ffffff">
 
     protected async override Task OnInitializedAsync()
     {
-        var btc = await BinanceApiService.BtcCotacaoDiaria();
-        var real = await BinanceApiService.CotacaoRealUsdt();
-
-        BtcBrlAtual = btc.Close.ToString("N2");
-        DolarAtual = real.ToString("N2");
+        await GetBtcPriceAndStats();
+        await GetUsdtPriceAndStats();
+        AjusteIndicadorArrow();
 
         await base.OnInitializedAsync();
+    }
+
+    async Task GetBtcPriceAndStats()
+    {
+        var btc = await BinanceApiService.BtcCotacaoDiaria();
+
+        BtcBrlAtual = btc.Last_Price_Data.ToString("N2");
+        PorcentagemBtcDia = btc.PercentVariation;
+
+    }
+
+    async Task GetUsdtPriceAndStats()
+    {
+        var real = await BinanceApiService.CotacaoRealUsdt();
+
+        DolarAtual = real.Last_Price_Data.ToString("N2");
+        PorcentagemUsdtDia = real.PercentVariation;
+    }
+
+    void AjusteIndicadorArrow()
+    {
+        IndexArrowBtc = PorcentagemBtcDia > 0 ? 0 : 1;
+
+        IndexArrowUsdt = PorcentagemUsdtDia > 0 ? 0 : 1;
     }
 
 }
