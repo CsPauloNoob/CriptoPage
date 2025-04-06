@@ -1,7 +1,11 @@
 ﻿@page "/"
 @using System.Globalization
 @using CriptoPage.Infra
+@using CriptoPage.Model
 @using MudBlazor.Utilities
+
+@inject ISnackbar Snackbar
+@inject HttpClient Http
 
 <PageTitle>Calculadora Bitcoin</PageTitle>
 <div id="hm"></div>
@@ -264,6 +268,8 @@ Style="background-color: #111b21; color: #ffffff">
                         RequiredError="Uma data válida deve ser fornecida"
                         Mask="@(new DateMask("dd/MM/yyyy"))"
                         DateFormat="dd/MM/yyyy"
+                        MinDate="_minDataCompra"
+                        MaxDate="_maxDateCompra"
                         Placeholder="dd/mm/yyyy"
                         Variant="Variant.Filled"/>
 
@@ -277,6 +283,7 @@ Style="background-color: #111b21; color: #ffffff">
                         Mask="@(new DateMask("dd/MM/yyyy"))"
                         DateFormat="dd/MM/yyyy"
                         Placeholder="dd/mm/yyyy"
+                        MaxDate="DateTime.Now"
                         Variant="Variant.Filled"/>
 
                         <MudPaper Elevation="0"
@@ -438,6 +445,8 @@ Style="background-color: #111b21; color: #ffffff">
                         RequiredError="Data de compra necessaria"
                         Mask="@(new DateMask("dd/MM/yyyy"))"
                         DateFormat="dd/MM/yyyy"
+                        MinDate="_minDataCompra"
+                        MaxDate="_maxDateCompra"
                         Placeholder="dd/mm/yyyy"
                         Variant="Variant.Filled" />
 
@@ -450,6 +459,7 @@ Style="background-color: #111b21; color: #ffffff">
                         Editable="true"
                         Mask="@(new DateMask("dd/MM/yyyy"))"
                         DateFormat="dd/MM/yyyy"
+                        MaxDate="DateTime.Now"
                         Placeholder="dd/mm/yyyy"
                         Variant="Variant.Filled" />
 
@@ -596,6 +606,8 @@ Style="background-color: #111b21; color: #ffffff">
 
 @code
 {
+    private List<CoinData> coins;
+
     string BtcBrlAtual = string.Empty;
     string DolarAtual = string.Empty;
     double PorcentagemBtcDia = 0;
@@ -607,6 +619,8 @@ Style="background-color: #111b21; color: #ffffff">
 
     DateTime? _dataCompra = null;
     DateTime? _dataVenda = null;
+    DateTime _maxDateCompra = DateTime.Now.AddDays(-1);
+    DateTime _minDataCompra = new DateTime(2013, 4, 29);
 
     bool IsBRL { get; set; } = true;
 
@@ -630,26 +644,74 @@ Style="background-color: #111b21; color: #ffffff">
 
     async Task CalcularGanhos()
     {
-        var vf = new Random().Next(100, 120); //Simulação lucro/prejuízo
-        _random = _random;
+        if (!ValidarDatas())
+        {
+            return;
+        }
+        var ganhos = CalcularGanhosNoIntervalo(_dataCompra.Value, _dataVenda.Value);
         ParseResults();
 
-        if (vf > 0 && vf < Result_ValorInicial)
+        if (ganhos > 0 && ganhos < Result_ValorInicial)
         {
-            AtualizarResultados(vf, new PaletteLight().Error);
-        }
-        else if (vf > 0 && vf > Result_ValorInicial)
-        {
-            AtualizarResultados(vf, new PaletteLight().Success);
+            AtualizarResultados(ganhos, new PaletteLight().Error);
         }
 
-        if (Result_ValorFinal <= 0)
+        else if (ganhos > 0 && ganhos > Result_ValorInicial)
+        {
+            AtualizarResultados(ganhos, new PaletteLight().Success);
+        }
+
+        if (ganhos <= 0)
             Result_ValorFinal = 0;
         else
         {
             AjustarMoedas();
             CalcularPorcentagem();   
         }
+    }
+
+    double CalcularGanhosNoIntervalo(DateTime dataCompra, DateTime dataVenda)
+    {
+        var dataLimite = new DateTime(2017, 7, 6);
+        double valorInicial = 0;
+        double valorFinal = 0;
+
+        if (dataCompra < dataLimite && dataVenda <= dataLimite)
+        {
+            var dadosCompra = coins.FirstOrDefault(c => c.Date == dataCompra);
+            var dadosVenda = coins.FirstOrDefault(c => c.Date == dataVenda);
+
+            if (dadosCompra != null && dadosVenda != null)
+            {
+                valorInicial = dadosCompra.FirstDayPrice ?? 0;
+                valorFinal = dadosVenda.Last_Price_Data;
+            }
+        }
+
+        return valorFinal - valorInicial;
+    }
+
+    bool ValidarDatas()
+    {
+        if (_dataCompra == null || _dataVenda == null)
+        {
+            ShowErrorSnackbar("Data de compra e venda são obrigatórias");
+            return false;
+        }
+
+        if (_dataCompra > _maxDateCompra || _dataCompra < _minDataCompra)
+        {
+            ShowErrorSnackbar("Data de compra inválida");
+            return false;
+        }
+
+        if (_dataVenda > DateTime.Now)
+        {
+            ShowErrorSnackbar("Data de venda inválida");
+            return false;
+        }
+
+        return true;
     }
 
     void AtualizarResultados(double valorFinal, MudColor cor)
@@ -703,6 +765,9 @@ Style="background-color: #111b21; color: #ffffff">
 
     protected async override Task OnInitializedAsync()
     {
+        var csvText = await Http.GetStringAsync("data/coin_Bitcoin.csv");
+        coins = ParseCsv(csvText);
+
         await GetBtcPriceAndStats();
         await GetUsdtPriceAndStats();
         AjusteIndicadorArrow();
@@ -734,4 +799,47 @@ Style="background-color: #111b21; color: #ffffff">
         IndexArrowUsdt = PorcentagemUsdtDia > 0 ? 0 : 1;
     }
 
+    void ShowErrorSnackbar(string message)
+    {
+        Snackbar.Clear();
+        Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomStart;
+        Snackbar.Add(message, Severity.Error);
+    }
+
+
+    private List<CoinData> ParseCsv(string csv)
+    {
+        var result = new List<CoinData>();
+        var lines = csv.Split('\n', StringSplitOptions.RemoveEmptyEntries);
+
+        for (int i = 1; i < lines.Length; i++)
+        {
+            var parts = lines[i].Split(',', StringSplitOptions.TrimEntries);
+
+            if (parts.Length < 8)
+                continue;
+
+            try
+            {
+                var date = DateTime.ParseExact(parts[3], "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture).Date;
+                var open = double.Parse(parts[6], CultureInfo.InvariantCulture);
+                var close = double.Parse(parts[7], CultureInfo.InvariantCulture);
+
+                result.Add(new CoinData
+                    {
+                        Name = "Bitcoin",
+                        Symbol = "BTC",
+                        Date = date,
+                        FirstDayPrice = open,
+                        Last_Price_Data = close
+                    });
+            }
+            catch
+            {
+                // Ignorar linha mal formatada
+            }
+        }
+
+        return result;
+    }
 }

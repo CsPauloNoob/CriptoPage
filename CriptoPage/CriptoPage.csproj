@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\lib\bootstrap\dist\" />
+    <None Include="wwwroot\data\coin_Bitcoin.csv" />
   </ItemGroup>
 
 </Project>
