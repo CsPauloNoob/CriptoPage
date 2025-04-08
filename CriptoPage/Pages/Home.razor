@@ -608,6 +608,22 @@ Style="background-color: #111b21; color: #ffffff">
 {
     private List<CoinData> coins;
 
+    private Dictionary<int, double> CotacaoAnterior = new Dictionary<int, double>
+    {
+        { 2013, 2.1701 },
+        { 2014, 2.3867 },
+        { 2015, 3.3911 },
+        { 2016, 3.4814 },
+        { 2017, 3.1998 },
+        { 2018, 3.6236 },
+        { 2019, 3.9174 },
+        { 2020, 5.1426 },
+        { 2021, 5.3093 },
+        { 2022, 5.2318 },
+        { 2023, 5.0124 },
+        { 2024, 5.2664 }
+    };
+
     string BtcBrlAtual = string.Empty;
     string DolarAtual = string.Empty;
     double PorcentagemBtcDia = 0;
@@ -648,7 +664,9 @@ Style="background-color: #111b21; color: #ffffff">
         {
             return;
         }
+
         var ganhos = CalcularGanhosNoIntervalo(_dataCompra.Value, _dataVenda.Value);
+
         ParseResults();
 
         if (ganhos > 0 && ganhos < Result_ValorInicial)
@@ -672,53 +690,29 @@ Style="background-color: #111b21; color: #ffffff">
 
     double CalcularGanhosNoIntervalo(DateTime dataCompra, DateTime dataVenda)
     {
-        var dataLimite = new DateTime(2017, 7, 6);
-        double valorInicial = 0;
-        double valorFinal = 0;
+        var dadosCompra = coins.FirstOrDefault(c => c.Date == dataCompra);
+        var dadosVenda = coins.FirstOrDefault(c => c.Date == dataVenda);
 
-        if (dataCompra < dataLimite && dataVenda <= dataLimite)
-        {
-            var dadosCompra = coins.FirstOrDefault(c => c.Date == dataCompra);
-            var dadosVenda = coins.FirstOrDefault(c => c.Date == dataVenda);
+        if (dadosCompra == null || dadosVenda == null)
+            return 0;
 
-            if (dadosCompra != null && dadosVenda != null)
-            {
-                valorInicial = dadosCompra.FirstDayPrice ?? 0;
-                valorFinal = dadosVenda.Last_Price_Data;
-            }
-        }
+        // Cotação do dólar nas datas
+        var cotacaoCompra = CotacaoAnterior.ContainsKey(dadosCompra.Date.Year) ? CotacaoAnterior[dadosCompra.Date.Year] : 1;
+        var cotacaoVenda = CotacaoAnterior.ContainsKey(dadosVenda.Date.Year) ? CotacaoAnterior[dadosVenda.Date.Year] : 1;
 
-        return valorFinal - valorInicial;
-    }
+        // Converter R$ para USD com a cotação da data da compra
+        double valorEmUSD = Result_ValorInicial / cotacaoCompra;
 
-    bool ValidarDatas()
-    {
-        if (_dataCompra == null || _dataVenda == null)
-        {
-            ShowErrorSnackbar("Data de compra e venda são obrigatórias");
-            return false;
-        }
+        // Calcular fração de BTC comprada
+        double quantidadeBTC = valorEmUSD / dadosCompra.Last_Price_Data;
 
-        if (_dataCompra > _maxDateCompra || _dataCompra < _minDataCompra)
-        {
-            ShowErrorSnackbar("Data de compra inválida");
-            return false;
-        }
+        // Valor de venda em USD
+        double valorFinalUSD = quantidadeBTC * dadosVenda.Last_Price_Data;
 
-        if (_dataVenda > DateTime.Now)
-        {
-            ShowErrorSnackbar("Data de venda inválida");
-            return false;
-        }
+        // Converter para BRL com cotação da venda
+        double valorFinalBRL = valorFinalUSD * cotacaoVenda;
 
-        return true;
-    }
-
-    void AtualizarResultados(double valorFinal, MudColor cor)
-    {
-        DiferenceResult = (valorFinal - Result_ValorInicial).ToString("N2");
-        Result_ValorFinal = valorFinal;
-        color = cor;
+        return valorFinalBRL;
     }
 
     void CalcularPorcentagem()
@@ -744,6 +738,7 @@ Style="background-color: #111b21; color: #ffffff">
             ProgressColor = Color.Error;
         }
     }
+
 
     void AjustarMoedas()
     {
@@ -773,6 +768,37 @@ Style="background-color: #111b21; color: #ffffff">
         AjusteIndicadorArrow();
 
         await base.OnInitializedAsync();
+    }
+
+
+    bool ValidarDatas()
+    {
+        if (_dataCompra == null || _dataVenda == null)
+        {
+            ShowErrorSnackbar("Data de compra e venda são obrigatórias");
+            return false;
+        }
+
+        if (_dataCompra > _maxDateCompra || _dataCompra < _minDataCompra)
+        {
+            ShowErrorSnackbar("Data de compra inválida");
+            return false;
+        }
+
+        if (_dataVenda > DateTime.Now)
+        {
+            ShowErrorSnackbar("Data de venda inválida");
+            return false;
+        }
+
+        return true;
+    }
+
+    void AtualizarResultados(double valorFinal, MudColor cor)
+    {
+        DiferenceResult = (valorFinal - Result_ValorInicial).ToString("N2");
+        Result_ValorFinal = valorFinal;
+        color = cor;
     }
 
     async Task GetBtcPriceAndStats()
