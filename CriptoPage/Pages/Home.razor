@@ -436,32 +436,32 @@ Style="background-color: #111b21; color: #ffffff">
 
                     <MudForm Spacing="12">
 
-                        <MudDatePicker Style="background: white;"
-                        Color="Color.Primary"
-                        Label="Data da Compra"
-                        Editable="true"
-                        Date="_dataCompra"
-                        Required="true"
-                        RequiredError="Data de compra necessaria"
-                        Mask="@(new DateMask("dd/MM/yyyy"))"
-                        DateFormat="dd/MM/yyyy"
-                        MinDate="_minDataCompra"
-                        MaxDate="_maxDateCompra"
-                        Placeholder="dd/mm/yyyy"
-                        Variant="Variant.Filled" />
+                        <MudDatePicker @bind-Date="_dataCompra"
+                                       Style="background: white;"
+                                       Color="Color.Primary"
+                                       Label="Data da Compra"
+                                       Editable="true"
+                                       Required="true"
+                                       RequiredError="Uma data válida deve ser fornecida"
+                                       Mask="@(new DateMask("dd/MM/yyyy"))"
+                                       DateFormat="dd/MM/yyyy"
+                                       MinDate="_minDataCompra"
+                                       MaxDate="_maxDateCompra"
+                                       Placeholder="dd/mm/yyyy"
+                                       Variant="Variant.Filled" />
 
-                        <MudDatePicker Style="background: white;"
-                        Color="Color.Primary"
-                        Label="Data da Venda"
-                        Date="_dataVenda"
-                        Required="true"
-                        RequiredError="Data de venda necessaria"
-                        Editable="true"
-                        Mask="@(new DateMask("dd/MM/yyyy"))"
-                        DateFormat="dd/MM/yyyy"
-                        MaxDate="DateTime.Now"
-                        Placeholder="dd/mm/yyyy"
-                        Variant="Variant.Filled" />
+                        <MudDatePicker @bind-Date="_dataVenda"
+                                       Style="background: white;"
+                                       Color="Color.Primary"
+                                       Label="Data da Venda"
+                                       Required="true"
+                                       RequiredError="Uma data válida deve ser fornecida"
+                                       Editable="true"
+                                       Mask="@(new DateMask("dd/MM/yyyy"))"
+                                       DateFormat="dd/MM/yyyy"
+                                       Placeholder="dd/mm/yyyy"
+                                       MaxDate="DateTime.Now"
+                                       Variant="Variant.Filled" />
 
                         <MudPaper Elevation="0" Width="100%"
                         Style="background-color: #2a3b45; color:white;"
@@ -635,6 +635,7 @@ Style="background-color: #111b21; color: #ffffff">
 
     DateTime? _dataCompra = null;
     DateTime? _dataVenda = null;
+    DateTime ApiMinDate = new DateTime(2021, 7, 06);
     DateTime _maxDateCompra = DateTime.Now.AddDays(-1);
     DateTime _minDataCompra = new DateTime(2013, 4, 29);
 
@@ -660,12 +661,20 @@ Style="background-color: #111b21; color: #ffffff">
 
     async Task CalcularGanhos()
     {
-        if (!ValidarDatas())
+        if (!ValidarCampos())
         {
             return;
         }
 
-        var ganhos = CalcularGanhosNoIntervalo(_dataCompra.Value, _dataVenda.Value);
+        double ganhos = 0;
+
+        if (_dataCompra > ApiMinDate || _dataVenda > ApiMinDate)
+        { 
+            ganhos = await CalcularGanhosViaApi(_dataCompra.Value, _dataVenda.Value);
+        }
+
+        else
+            ganhos = CalcularGanhosNoIntervaloCsv(_dataCompra.Value, _dataVenda.Value);
 
         ParseResults();
 
@@ -688,13 +697,13 @@ Style="background-color: #111b21; color: #ffffff">
         }
     }
 
-    double CalcularGanhosNoIntervalo(DateTime dataCompra, DateTime dataVenda)
+    double CalcularGanhosNoIntervaloCsv(DateTime dataCompra, DateTime dataVenda)
     {
-        
+
         double valorFinalBRL = 0;
         var dadosCompra = coins.FirstOrDefault(c => c.Date == dataCompra);
         var dadosVenda = coins.FirstOrDefault(c => c.Date == dataVenda);
-        
+
         var cotacaoCompra = CotacaoAnterior.ContainsKey(dadosCompra.Date.Year) ? CotacaoAnterior[dadosCompra.Date.Year] : 1;
         var cotacaoVenda = CotacaoAnterior.ContainsKey(dadosVenda.Date.Year) ? CotacaoAnterior[dadosVenda.Date.Year] : 1;
 
@@ -717,10 +726,42 @@ Style="background-color: #111b21; color: #ffffff">
             valorFinalBRL = valorFinalUSD * cotacaoVenda;
         }
 
-        else
+        else  //Implementação de calculo de btc para real
+        {
+
+        }
+
+        return valorFinalBRL;
+    }
+
+
+    async Task<double> CalcularGanhosViaApi(DateTime dataCompra, DateTime dataVenda)
+    {
+        double valorFinalBRL = 0;
+        CoinData dadosCompra;
+        double quantidadeBtc = 0;
+
+        var dadosVenda = await BinanceApiService.CotacaoBtcDataEspecifica(dataVenda);
+
+        if (dataCompra > ApiMinDate)
+        {
+            //Valor da Api já em BRL
+            dadosCompra = await BinanceApiService.CotacaoBtcDataEspecifica(dataCompra);
+            //Calcula qtde de btc
+            quantidadeBtc = Result_ValorInicial / dadosCompra.Last_Price_Data;
+            //Valor da venda em BRL
+            valorFinalBRL = quantidadeBtc * dadosVenda.Last_Price_Data;
+        }
+
+        else //Cenario onde o valor inical precisa ser convertido.
         {
             
+            dadosCompra = coins.FirstOrDefault(c => c.Date == dataCompra);
         }
+
+
+
+
 
         return valorFinalBRL;
     }
@@ -781,11 +822,29 @@ Style="background-color: #111b21; color: #ffffff">
     }
 
 
-    bool ValidarDatas()
+    bool ValidarCampos()
     {
+        if(Result_ValorInicial == 0)
+        {
+            ShowErrorSnackbar("Insira um valor válido");
+            return false;
+        }
+
         if (_dataCompra == null || _dataVenda == null)
         {
             ShowErrorSnackbar("Data de compra e venda são obrigatórias");
+            return false;
+        }
+
+        else if (_dataCompra == _dataVenda)
+        {
+            ShowErrorSnackbar("As datas não podem ser iguais");
+            return false;
+        }
+
+        else if(_dataCompra > _dataVenda)
+        {
+            ShowErrorSnackbar("A data de compra não pode ser maior que a data de venda");
             return false;
         }
 

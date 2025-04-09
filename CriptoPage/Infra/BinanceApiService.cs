@@ -49,5 +49,33 @@ namespace CriptoPage.Infra
                 Symbol = symbol
             };
         }
+
+        public static async Task<CoinData> CotacaoBtcDataEspecifica(DateTime data)
+        {
+            using var client = new BinanceRestClient();
+            var symbol = "BTCBRL";
+
+            // Obtendo dados históricos
+            var historicalDataResult = await client.SpotApi.ExchangeData.GetKlinesAsync(symbol, KlineInterval.OneDay, startTime: data, endTime: data.AddDays(1));
+
+            if (!historicalDataResult.Success || historicalDataResult.Data.Count() == 0)
+            {
+                throw new Exception("Não foi possível obter os dados históricos para a data especificada.");
+            }
+
+            var kline = historicalDataResult.Data.First();
+
+            client.Dispose();
+
+            return new CoinData
+            {
+                Date = data,
+                Last_Price_Data = (double)kline.ClosePrice,
+                FirstDayPrice = (double)kline.OpenPrice,
+                PercentVariation = (double)((kline.ClosePrice - kline.OpenPrice) / kline.OpenPrice * 100),
+                Name = "Bitcoin",
+                Symbol = symbol
+            };
+        }
     }
 }
