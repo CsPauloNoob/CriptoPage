@@ -690,27 +690,37 @@ Style="background-color: #111b21; color: #ffffff">
 
     double CalcularGanhosNoIntervalo(DateTime dataCompra, DateTime dataVenda)
     {
+        
+        double valorFinalBRL = 0;
         var dadosCompra = coins.FirstOrDefault(c => c.Date == dataCompra);
         var dadosVenda = coins.FirstOrDefault(c => c.Date == dataVenda);
+        
+        var cotacaoCompra = CotacaoAnterior.ContainsKey(dadosCompra.Date.Year) ? CotacaoAnterior[dadosCompra.Date.Year] : 1;
+        var cotacaoVenda = CotacaoAnterior.ContainsKey(dadosVenda.Date.Year) ? CotacaoAnterior[dadosVenda.Date.Year] : 1;
 
         if (dadosCompra == null || dadosVenda == null)
             return 0;
 
-        // Cotação do dólar nas datas
-        var cotacaoCompra = CotacaoAnterior.ContainsKey(dadosCompra.Date.Year) ? CotacaoAnterior[dadosCompra.Date.Year] : 1;
-        var cotacaoVenda = CotacaoAnterior.ContainsKey(dadosVenda.Date.Year) ? CotacaoAnterior[dadosVenda.Date.Year] : 1;
+        if (IsBRL)
+        {
 
-        // Converter R$ para USD com a cotação da data da compra
-        double valorEmUSD = Result_ValorInicial / cotacaoCompra;
+            // Converter R$ para USD com a cotação da data da compra
+            double valorEmUSD = Result_ValorInicial / cotacaoCompra;
 
-        // Calcular fração de BTC comprada
-        double quantidadeBTC = valorEmUSD / dadosCompra.Last_Price_Data;
+            // Calcular fração de BTC comprada
+            double quantidadeBTC = valorEmUSD / dadosCompra.Last_Price_Data;
 
-        // Valor de venda em USD
-        double valorFinalUSD = quantidadeBTC * dadosVenda.Last_Price_Data;
+            // Valor de venda em USD
+            double valorFinalUSD = quantidadeBTC * dadosVenda.Last_Price_Data;
 
-        // Converter para BRL com cotação da venda
-        double valorFinalBRL = valorFinalUSD * cotacaoVenda;
+            // Converter para BRL com cotação da venda
+            valorFinalBRL = valorFinalUSD * cotacaoVenda;
+        }
+
+        else
+        {
+            
+        }
 
         return valorFinalBRL;
     }
@@ -744,7 +754,7 @@ Style="background-color: #111b21; color: #ffffff">
     {
         ActualCurrency = "R$ ";
 
-        ResultVF = ActualCurrency + Result_ValorFinal.ToString();
+        ResultVF = ActualCurrency + Result_ValorFinal.ToString("N2");
         ResultVI = ActualCurrency + Result_ValorInicial.ToString();
         DiferenceResult = ActualCurrency + DiferenceResult;
     }
