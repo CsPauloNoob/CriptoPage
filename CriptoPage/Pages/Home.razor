@@ -290,16 +290,17 @@ Style="background-color: #111b21; color: #ffffff">
                         Style="background-color: #2a3b45; color:white;"
                         Class="d-flex">
                             <MudTextField
-                            @bind-Value="Result_ValorInicial"
-                            Label="Total investido"
-                            InputMode="InputMode.numeric"
-                            Variant="Variant.Filled"
-                            Placeholder="Ex: R$ 1000"
-                            Style="background: white; width:70%"
-                            Adornment="Adornment.Start"
-                            AdornmentIcon="@Icons.Material.Filled.AttachMoney"
-                            AdornmentText="@(IsBRL ? "R$" : "BTC")"
-                            Culture="@(new CultureInfo("pt-BR"))"/>
+                                @bind-Value="Result_ValorInicial"
+                                Immediate="false"
+                                Label="Total investido"
+                                InputMode="InputMode.numeric"
+                                Variant="Variant.Filled"
+                                Format="N2"
+                                Style="background: white; width:70%"
+                                Adornment="Adornment.Start"
+                                AdornmentIcon="@Icons.Material.Filled.AttachMoney"
+                                AdornmentText="@(IsBRL ? "R$" : "BTC")"
+                                Culture="@(new CultureInfo("de-DE"))"/>
 
                             <MudText Class="pt-2" Align="Align.Center">BTC</MudText>
                             <MudSwitch Label="BRL"
@@ -338,55 +339,79 @@ Style="background-color: #111b21; color: #ffffff">
                         Style="background-color: inherit">
 
                             <MudStack
-                            Spacing="5"
-                            Style="color: white" Class="mr-3 mt-8">
-                                <MudTextField
-                                @bind-Value="ResultVI"
-                                Style="background-color: white"
-                                Variant="Variant.Filled"
-                                Label="Valor Inicial"
-                                ShrinkLabel="true"
-                                ReadOnly="true"/>
+                                Spacing="5"
+                                Style="color: white" Class="mr-3 mt-8">
+                                <MudPaper Class="d-flex align-center" Width="100%" Height="45px" Style="color: white; background-color: #111b21">
+                                    <MudText Class="pl-2" Align="Align.Left" Style="background-color: inherit">Valor Inicial</MudText>
+                                    <MudSpacer/>
+                                    <MudText Class="pr-2" Align="Align.End" Style="background-color: inherit">@ResultVI</MudText>
+                                </MudPaper>
 
-                                <MudTextField
-                                Value="ResultVF"
-                                Style="background-color: white"
-                                Variant="Variant.Filled"
-                                AdornmentColor="Color.Dark"
-                                Label="Valor Final"
-                                ShrinkLabel="true"
-                                ReadOnly="true"
-                                T="string"/>
+                                <MudPaper Class="d-flex align-center" Width="100%" Height="45px" Style="color: white; background-color: #111b21">
+                                    <MudText Class="pl-2" Align="Align.Left" Style="background-color: inherit">Valor Final</MudText>
+                                    <MudSpacer/>
+                                    <MudText Class="pr-2" Align="Align.End" Style="background-color: inherit">@ResultVF</MudText>
+                                </MudPaper>
 
-                                <MudTextField
-                                Variant="Variant.Filled"
-                                Style="@($"background-color: white; color: {color};")"
-                                Label="Lucro/Prejuízo"
-                                Value="DiferenceResult"
-                                ShrinkLabel="true"
-                                ReadOnly="true"
-                                T="string"/>
+                                <MudPaper Class="d-flex align-center" Width="100%" Height="45px" Style="color: white; background-color: #111b21">
+                                    <MudText Class="pl-2" Align="Align.Left" Style="background-color: inherit">Lucro/Prejuízo</MudText>
+                                    <MudSpacer/>
+                                    <MudText Class="pr-2" Align="Align.End" Style="@($"color: {color};")">@DiferenceResult</MudText>
+                                </MudPaper>
 
-                                <MudTextField
-                                Variant="Variant.Filled"
-                                Style="@($"background-color: white; color: {color};")"
-                                Label="Rentabilidade"
-                                Value="Rentabilidade"
-                                ShrinkLabel="true"
-                                ReadOnly="true"
-                                T="string"/>
+                                <MudPaper Class="d-flex align-center" Width="100%" Height="45px" Style="color: white; background-color: #111b21">
+                                    <MudText Class="pl-2" Align="Align.Left" Style="background-color: inherit">Rentabilidade</MudText>
+                                    <MudSpacer/>
+                                    <MudText Class="pr-2" Align="Align.End" Style="@($"color: {color};")">@Rentabilidade</MudText>
+                                </MudPaper>
+                                
+                                @* <MudTextField *@
+                                @*     @bind-Value="ResultVI" *@
+                                @*     Style="background-color: #111b21;" *@
+                                @*     Variant="Variant.Filled" *@
+                                @*     Label="Valor Inicial" *@
+                                @*     ShrinkLabel="true" *@
+                                @*     ReadOnly="true"/> *@
+                                @* *@
+                                @* <MudTextField *@
+                                @*     Value="ResultVF" *@
+                                @*     Style="background-color: white" *@
+                                @*     Variant="Variant.Filled" *@
+                                @*     AdornmentColor="Color.Dark" *@
+                                @*     Label="Valor Final" *@
+                                @*     ShrinkLabel="true" *@
+                                @*     ReadOnly="true" *@
+                                @*     T="string"/> *@
+                                @* *@
+                                @* <MudTextField *@
+                                @*     Variant="Variant.Filled" *@
+                                @*     Style="@($"background-color: white; color: {color};")" *@
+                                @*     Label="Lucro/Prejuízo" *@
+                                @*     Value="DiferenceResult" *@
+                                @*     ShrinkLabel="true" *@
+                                @*     ReadOnly="true" *@
+                                @*     T="string"/> *@
+                                @* *@
+                                @* <MudTextField *@
+                                @*     Variant="Variant.Filled" *@
+                                @*     Style="@($"background-color: white; color: {color};")" *@
+                                @*     Label="Rentabilidade" *@
+                                @*     Value="Rentabilidade" *@
+                                @*     ShrinkLabel="true" *@
+                                @*     ReadOnly="true" *@
+                                @*     T="string"/> *@
 
                                 <MudText Class="mb-n2">Variação no Período</MudText>
 
                                 <MudProgressLinear
-                                Style="background-color: white; height: 24px;"
-                                Rounded="true"
-                                Color="ProgressColor"
-                                Size="Size.Large"
-                                Value="(double)Percent_LucroPrej">
+                                    Style="background-color: white; height: 24px;"
+                                    Rounded="true"
+                                    Color="ProgressColor"
+                                    Size="Size.Large"
+                                    Value="(double)Percent_LucroPrej">
                                     <MudText
-                                    Typo="Typo.subtitle1"
-                                    Color="Color.Dark">
+                                        Typo="Typo.subtitle1"
+                                        Color="Color.Dark">
 
                                         @Percent_LucroPrej.ToString("N2")%
 
@@ -443,11 +468,11 @@ Style="background-color: #111b21; color: #ffffff">
                                        Editable="true"
                                        Required="true"
                                        RequiredError="Uma data válida deve ser fornecida"
-                                       Mask="@(new DateMask("dd/MM/yyyy"))"
-                                       DateFormat="dd/MM/yyyy"
+                                       Mask="@(new DateMask("dd.MM.yyyy"))"
+                                       DateFormat="dd.MM.yyyy"
                                        MinDate="_minDataCompra"
                                        MaxDate="_maxDateCompra"
-                                       Placeholder="dd/mm/yyyy"
+                                       Placeholder="dd.mm.yyyy"
                                        Variant="Variant.Filled" />
 
                         <MudDatePicker @bind-Date="_dataVenda"
@@ -457,27 +482,27 @@ Style="background-color: #111b21; color: #ffffff">
                                        Required="true"
                                        RequiredError="Uma data válida deve ser fornecida"
                                        Editable="true"
-                                       Mask="@(new DateMask("dd/MM/yyyy"))"
-                                       DateFormat="dd/MM/yyyy"
-                                       Placeholder="dd/mm/yyyy"
+                                       Mask="@(new DateMask("dd.MM.yyyy"))"
+                                       DateFormat="dd.MM.yyyy"
+                                       Placeholder="dd.mm.yyyy"
                                        MaxDate="DateTime.Now"
                                        Variant="Variant.Filled" />
 
                         <MudPaper Elevation="0" Width="100%"
                         Style="background-color: #2a3b45; color:white;"
                         Class="d-flex">
-                            <MudTextField @bind-Value="Result_ValorInicial"
-                            Label="Total investido"
-                            Required="true"
-                            RequiredError="Um valor deve ser forncido"
-                            InputMode="InputMode.numeric"
-                            Variant="Variant.Filled"
-                            Placeholder="Ex: R$ 1000"
-                            Style="background: white; width:70%"
-                            Adornment="Adornment.Start"
-                            AdornmentIcon="@Icons.Material.Filled.AttachMoney"
-                            AdornmentText="@(IsBRL ? "R$" : "BTC")"
-                            Culture="@(new CultureInfo("pt-BR"))" />
+                            <MudTextField
+                                @bind-Value="Result_ValorInicial"
+                                Immediate="false"
+                                Label="Total investido"
+                                InputMode="InputMode.numeric"
+                                Variant="Variant.Filled"
+                                Format="N2"
+                                Style="background: white; width:70%"
+                                Adornment="Adornment.Start"
+                                AdornmentIcon="@Icons.Material.Filled.AttachMoney"
+                                AdornmentText="@(IsBRL ? "R$" : "BTC")"
+                                Culture="@(new CultureInfo("de-DE"))"/>
 
                             <MudText Class="pt-2" Align="Align.Center">BTC</MudText>
                             <MudSwitch Label="BRL"
@@ -515,48 +540,74 @@ Style="background-color: #111b21; color: #ffffff">
                         Style="background-color: inherit">
 
                             <MudStack Spacing="5"
-                            Style="color: white" Class="mr-3 mt-8">
-                                <MudTextField @bind-Value="ResultVI"
-                                Style="background-color: white"
-                                Variant="Variant.Filled"
-                                Label="Valor Inicial"
-                                ShrinkLabel="true"
-                                ReadOnly="true" />
+                                      Style="color: white" Class="mr-3 mt-8">
 
-                                <MudTextField Value="ResultVF"
-                                Style="background-color: white"
-                                Variant="Variant.Filled"
-                                AdornmentColor="Color.Dark"
-                                Label="Valor Final"
-                                ShrinkLabel="true"
-                                ReadOnly="true"
-                                T="string" />
+                                <MudPaper Class="d-flex align-center" Width="100%" Height="45px" Style="color: white; background-color: #111b21">
+                                    <MudText Class="pl-2" Align="Align.Left" Style="background-color: inherit">Valor Inicial</MudText>
+                                    <MudSpacer/>
+                                    <MudText Class="pr-2" Align="Align.End" Style="background-color: inherit">@ResultVI</MudText>
+                                </MudPaper>
 
-                                <MudTextField Variant="Variant.Filled"
-                                Style="@($"background-color: white; color: {color};")"
-                                Label="Lucro/Prejuízo"
-                                Value="DiferenceResult"
-                                ShrinkLabel="true"
-                                ReadOnly="true"
-                                T="string" />
+                                <MudPaper Class="d-flex align-center" Width="100%" Height="45px" Style="color: white; background-color: #111b21">
+                                    <MudText Class="pl-2" Align="Align.Left" Style="background-color: inherit">Valor Final</MudText>
+                                    <MudSpacer/>
+                                    <MudText Class="pr-2" Align="Align.End" Style="background-color: inherit">@ResultVF</MudText>
+                                </MudPaper>
 
-                                <MudTextField Variant="Variant.Filled"
-                                Style="@($"background-color: white; color: {color};")"
-                                Label="Rentabilidade"
-                                Value="Rentabilidade"
-                                ShrinkLabel="true"
-                                ReadOnly="true"
-                                T="string" />
+                                <MudPaper Class="d-flex align-center" Width="100%" Height="45px" Style="color: white; background-color: #111b21">
+                                    <MudText Class="pl-2" Align="Align.Left" Style="background-color: inherit">Lucro/Prejuízo</MudText>
+                                    <MudSpacer/>
+                                    <MudText Class="pr-2" Align="Align.End" Style="@($"color: {color};")">@DiferenceResult</MudText>
+                                </MudPaper>
+
+                                <MudPaper Class="d-flex align-center" Width="100%" Height="45px" Style="color: white; background-color: #111b21">
+                                    <MudText Class="pl-2" Align="Align.Left" Style="background-color: inherit">Rentabilidade</MudText>
+                                    <MudSpacer/>
+                                    <MudText Class="pr-2" Align="Align.End" Style="@($"color: {color};")">@Rentabilidade</MudText>
+                                </MudPaper>
+                                
+                                
+                                @* <MudTextField @bind-Value="ResultVI" *@
+                                @* Style="background-color: white" *@
+                                @* Variant="Variant.Filled" *@
+                                @* Label="Valor Inicial" *@
+                                @* ShrinkLabel="true" *@
+                                @* ReadOnly="true" /> *@
+                                @* *@
+                                @* <MudTextField Value="ResultVF" *@
+                                @* Style="background-color: white" *@
+                                @* Variant="Variant.Filled" *@
+                                @* AdornmentColor="Color.Dark" *@
+                                @* Label="Valor Final" *@
+                                @* ShrinkLabel="true" *@
+                                @* ReadOnly="true" *@
+                                @* T="string" /> *@
+
+                                @* <MudTextField Variant="Variant.Filled" *@
+                                @* Style="@($"background-color: white; color: {color};")" *@
+                                @* Label="Lucro/Prejuízo" *@
+                                @* Value="DiferenceResult" *@
+                                @* ShrinkLabel="true" *@
+                                @* ReadOnly="true" *@
+                                @* T="string" /> *@
+                                @* *@
+                                @* <MudTextField Variant="Variant.Filled" *@
+                                @* Style="@($"background-color: white; color: {color};")" *@
+                                @* Label="Rentabilidade" *@
+                                @* Value="Rentabilidade" *@
+                                @* ShrinkLabel="true" *@
+                                @* ReadOnly="true" *@
+                                @* T="string" /> *@
 
                                 <MudText Class="mb-n2">Variação no Período</MudText>
 
                                 <MudProgressLinear Style="background-color: white; height: 24px;"
-                                Rounded="true"
-                                Color="ProgressColor"
-                                Size="Size.Large"
-                                Value="(double)Percent_LucroPrej">
+                                                   Rounded="true"
+                                                   Color="ProgressColor"
+                                                   Size="Size.Large"
+                                                   Value="(double)Percent_LucroPrej">
                                     <MudText Typo="Typo.subtitle1"
-                                    Color="Color.Dark">
+                                             Color="Color.Dark">
 
                                         @Percent_LucroPrej.ToString("N2")%
 
@@ -608,6 +659,7 @@ Style="background-color: #111b21; color: #ffffff">
 {
     private List<CoinData> coins;
 
+    //Cotacao (Media)
     private Dictionary<int, double> CotacaoAnterior = new Dictionary<int, double>
     {
         { 2013, 2.1701 },
@@ -641,7 +693,7 @@ Style="background-color: #111b21; color: #ffffff">
 
     bool IsBRL { get; set; } = true;
 
-    double Result_ValorInicial;
+    double Result_ValorInicial = 1;
     double Result_ValorFinal;
     string DiferenceResult = string.Empty;
     string Rentabilidade = string.Empty;
@@ -661,7 +713,7 @@ Style="background-color: #111b21; color: #ffffff">
 
     async Task CalcularGanhos()
     {
-        if (!ValidarCampos())
+        if (Result_ValorInicial < 0 || !ValidarCampos())
         {
             return;
         }
@@ -728,6 +780,18 @@ Style="background-color: #111b21; color: #ffffff">
 
         else  //Implementação de calculo de btc para real
         {
+            //calcula quanto a qtde de btc csuta em dolar
+            double btcValorUsdCompra = dadosCompra.Last_Price_Data / Result_ValorInicial;
+            
+            //Converte para BRL
+            double btcValorBrlCompra = btcValorUsdCompra * cotacaoCompra;
+
+            double btcValorUsdVenda = dadosVenda.Last_Price_Data / Result_ValorInicial;
+
+            double btcValorBrlVenda = btcValorUsdVenda * cotacaoVenda;
+
+            //Result_ValorInicial = btcValorBrlCompra;
+            valorFinalBRL = btcValorBrlVenda;
 
         }
 
@@ -796,7 +860,7 @@ Style="background-color: #111b21; color: #ffffff">
         ActualCurrency = "R$ ";
 
         ResultVF = ActualCurrency + Result_ValorFinal.ToString("N2");
-        ResultVI = ActualCurrency + Result_ValorInicial.ToString();
+        ResultVI = ActualCurrency + Result_ValorInicial.ToString("N2");
         DiferenceResult = ActualCurrency + DiferenceResult;
     }
 
