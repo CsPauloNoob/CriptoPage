@@ -290,20 +290,20 @@ Style="background-color: #111b21; color: #ffffff">
                         Style="background-color: #2a3b45; color:white;"
                         Class="d-flex">
                             <MudTextField
-                                @bind-Value="Result_ValorInicial"
-                                Immediate="false"
-                                Label="Total investido"
-                                InputMode="InputMode.numeric"
-                                Variant="Variant.Filled"
-                                Format="N2"
-                                Style="background: white; width:70%"
-                                Adornment="Adornment.Start"
-                                AdornmentIcon="@Icons.Material.Filled.AttachMoney"
-                                AdornmentText="@(IsBRL ? "R$" : "BTC")"
-                                Culture="@(new CultureInfo("de-DE"))"/>
+                            @bind-Value="Result_ValorInicial"
+                            Immediate="false"
+                            Label="Total investido"
+                            InputMode="InputMode.numeric"
+                            Variant="Variant.Filled"
+                            Format="N2"
+                            Style="background: white; width:70%"
+                            Adornment="Adornment.Start"
+                            AdornmentIcon="@Icons.Material.Filled.AttachMoney"
+                            AdornmentText="@(IsBRL ? "R$" : "BTC")"
+                            Culture="@(new CultureInfo("de-DE"))"/>
 
                             <MudText Class="pt-2" Align="Align.Center">BTC</MudText>
-                            
+
                             <MudSwitch Label="BRL"
                             UncheckedColor="Color.Warning"
                             Color="Color.Success"
@@ -340,8 +340,8 @@ Style="background-color: #111b21; color: #ffffff">
                         Style="background-color: inherit">
 
                             <MudStack
-                                Spacing="5"
-                                Style="color: white" Class="mr-3 mt-8">
+                            Spacing="5"
+                            Style="color: white" Class="mr-3 mt-8">
                                 <MudPaper Class="d-flex align-center" Width="100%" Height="45px" Style="color: white; background-color: #111b21">
                                     <MudText Class="pl-2" Align="Align.Left" Style="background-color: inherit">Valor Inicial</MudText>
                                     <MudSpacer/>
@@ -365,7 +365,7 @@ Style="background-color: #111b21; color: #ffffff">
                                     <MudSpacer/>
                                     <MudText Class="pr-2" Align="Align.End" Style="@($"color: {color};")">@Rentabilidade</MudText>
                                 </MudPaper>
-                                
+
                                 @* <MudTextField *@
                                 @*     @bind-Value="ResultVI" *@
                                 @*     Style="background-color: #111b21;" *@
@@ -405,14 +405,14 @@ Style="background-color: #111b21; color: #ffffff">
                                 <MudText Class="mb-n2">Variação no Período</MudText>
 
                                 <MudProgressLinear
-                                    Style="background-color: white; height: 24px;"
-                                    Rounded="true"
-                                    Color="ProgressColor"
-                                    Size="Size.Large"
-                                    Value="(double)Percent_LucroPrej">
+                                Style="background-color: white; height: 24px;"
+                                Rounded="true"
+                                Color="ProgressColor"
+                                Size="Size.Large"
+                                Value="(double)Percent_LucroPrej">
                                     <MudText
-                                        Typo="Typo.subtitle1"
-                                        Color="Color.Dark">
+                                    Typo="Typo.subtitle1"
+                                    Color="Color.Dark">
 
                                         @Percent_LucroPrej.ToString("N2")%
 
@@ -463,47 +463,43 @@ Style="background-color: #111b21; color: #ffffff">
                     <MudForm Spacing="12">
 
                         <MudDatePicker @bind-Date="_dataCompra"
-                                       Style="background: white;"
-                                       Color="Color.Primary"
-                                       Label="Data da Compra"
-                                       Editable="true"
-                                       Required="true"
-                                       RequiredError="Uma data válida deve ser fornecida"
-                                       Mask="@(new DateMask("dd.MM.yyyy"))"
-                                       DateFormat="dd.MM.yyyy"
-                                       MinDate="_minDataCompra"
-                                       MaxDate="_maxDateCompra"
-                                       Placeholder="dd.mm.yyyy"
-                                       Variant="Variant.Filled" />
+                        Style="background: white;"
+                        Color="Color.Primary"
+                        Label="Data da Compra"
+                        Required="true"
+                        RequiredError="Uma data válida deve ser fornecida"
+                        DateFormat="dd.MM.yyyy"
+                        MinDate="_minDataCompra"
+                        MaxDate="_maxDateCompra"
+                        Placeholder="dd.mm.yyyy"
+                        Variant="Variant.Filled" />
 
                         <MudDatePicker @bind-Date="_dataVenda"
-                                       Style="background: white;"
-                                       Color="Color.Primary"
-                                       Label="Data da Venda"
-                                       Required="true"
-                                       RequiredError="Uma data válida deve ser fornecida"
-                                       Editable="true"
-                                       Mask="@(new DateMask("dd.MM.yyyy"))"
-                                       DateFormat="dd.MM.yyyy"
-                                       Placeholder="dd.mm.yyyy"
-                                       MaxDate="DateTime.Now"
-                                       Variant="Variant.Filled" />
+                        Style="background: white;"
+                        Color="Color.Primary"
+                        Label="Data da Venda"
+                        Required="true"
+                        RequiredError="Uma data válida deve ser fornecida"
+                        DateFormat="dd.MM.yyyy"
+                        Placeholder="dd.mm.yyyy"
+                        MaxDate="DateTime.Now"
+                        Variant="Variant.Filled" />
 
                         <MudPaper Elevation="0" Width="100%"
                         Style="background-color: #2a3b45; color:white;"
                         Class="d-flex">
                             <MudTextField
-                                @bind-Value="Result_ValorInicial"
-                                Immediate="false"
-                                Label="Total investido"
-                                InputMode="InputMode.numeric"
-                                Variant="Variant.Filled"
-                                Format="N2"
-                                Style="background: white; width:70%"
-                                Adornment="Adornment.Start"
-                                AdornmentIcon="@Icons.Material.Filled.AttachMoney"
-                                AdornmentText="@(IsBRL ? "R$" : "BTC")"
-                                Culture="@(new CultureInfo("de-DE"))"/>
+                            @bind-Value="Result_ValorInicial"
+                            Immediate="false"
+                            Label="Total investido"
+                            InputMode="InputMode.numeric"
+                            Variant="Variant.Filled"
+                            Format="N2"
+                            Style="background: white; width:70%"
+                            Adornment="Adornment.Start"
+                            AdornmentIcon="@Icons.Material.Filled.AttachMoney"
+                            AdornmentText="@(IsBRL ? "R$" : "BTC")"
+                            Culture="@(new CultureInfo("de-DE"))"/>
 
                             <MudText Class="pt-2" Align="Align.Center">BTC</MudText>
                             <MudSwitch Label="BRL"
@@ -541,7 +537,7 @@ Style="background-color: #111b21; color: #ffffff">
                         Style="background-color: inherit">
 
                             <MudStack Spacing="5"
-                                      Style="color: white" Class="mr-3 mt-8">
+                            Style="color: white" Class="mr-3 mt-8">
 
                                 <MudPaper Class="d-flex align-center" Width="100%" Height="45px" Style="color: white; background-color: #111b21">
                                     <MudText Class="pl-2" Align="Align.Left" Style="background-color: inherit">Valor Inicial</MudText>
@@ -566,8 +562,8 @@ Style="background-color: #111b21; color: #ffffff">
                                     <MudSpacer/>
                                     <MudText Class="pr-2" Align="Align.End" Style="@($"color: {color};")">@Rentabilidade</MudText>
                                 </MudPaper>
-                                
-                                
+
+
                                 @* <MudTextField @bind-Value="ResultVI" *@
                                 @* Style="background-color: white" *@
                                 @* Variant="Variant.Filled" *@
@@ -603,12 +599,12 @@ Style="background-color: #111b21; color: #ffffff">
                                 <MudText Class="mb-n2">Variação no Período</MudText>
 
                                 <MudProgressLinear Style="background-color: white; height: 24px;"
-                                                   Rounded="true"
-                                                   Color="ProgressColor"
-                                                   Size="Size.Large"
-                                                   Value="(double)Percent_LucroPrej">
+                                Rounded="true"
+                                Color="ProgressColor"
+                                Size="Size.Large"
+                                Value="(double)Percent_LucroPrej">
                                     <MudText Typo="Typo.subtitle1"
-                                             Color="Color.Dark">
+                                    Color="Color.Dark">
 
                                         @Percent_LucroPrej.ToString("N2")%
 
@@ -730,13 +726,14 @@ Style="background-color: #111b21; color: #ffffff">
             ganhos = CalcularGanhosNoIntervaloCsv(_dataCompra.Value, _dataVenda.Value);
 
         ParseResults();
+        double auxResultVI = double.Parse(ResultVI);
 
-        if (ganhos > 0 && ganhos < Result_ValorInicial)
+        if (ganhos > 0 && ganhos < auxResultVI)
         {
             AtualizarResultados(ganhos, new PaletteLight().Error);
         }
 
-        else if (ganhos > 0 && ganhos > Result_ValorInicial)
+        else if (ganhos > 0 && ganhos > auxResultVI)
         {
             AtualizarResultados(ganhos, new PaletteLight().Success);
         }
@@ -746,9 +743,12 @@ Style="background-color: #111b21; color: #ffffff">
         else
         {
             AjustarMoedas();
-            CalcularPorcentagem();   
+            CalcularPorcentagem();
+            AjustarCorResultados();
         }
     }
+
+
 
     double CalcularGanhosNoIntervaloCsv(DateTime dataCompra, DateTime dataVenda)
     {
@@ -765,7 +765,7 @@ Style="background-color: #111b21; color: #ffffff">
 
         if (IsBRL)
         {
-
+            ResultVI = Result_ValorInicial.ToString("N2");
             // Converter R$ para USD com a cotação da data da compra
             double valorEmUSD = Result_ValorInicial / cotacaoCompra;
 
@@ -795,7 +795,7 @@ Style="background-color: #111b21; color: #ffffff">
             valorFinalBRL = btcValorBrlVenda;
 
         }
-
+        
         return valorFinalBRL;
     }
 
@@ -806,37 +806,110 @@ Style="background-color: #111b21; color: #ffffff">
         CoinData dadosCompra;
         double quantidadeBtc = 0;
 
-        var dadosVenda = await BinanceApiService.CotacaoBtcDataEspecifica(dataVenda);
+        CoinData dadosVenda;
 
-        if (dataCompra > ApiMinDate)
+        // Se dataVenda for posterior à ApiMinDate, buscar na API
+        if (dataVenda >= ApiMinDate)
         {
-            //Valor da Api já em BRL
+            dadosVenda = await BinanceApiService.CotacaoBtcDataEspecifica(dataVenda);
+        }
+        else
+        {
+            dadosVenda = coins.FirstOrDefault(c => c.Date.Date == dataVenda.Date);
+        }
+
+        // Se dados de venda não forem encontrados, não há como calcular
+        if (dadosVenda == null)
+            return 0;
+
+        // Caso 1: Compra via API (dados recentes)
+        if (dataCompra >= ApiMinDate)
+        {
             dadosCompra = await BinanceApiService.CotacaoBtcDataEspecifica(dataCompra);
-            //Calcula qtde de btc
-            quantidadeBtc = Result_ValorInicial / dadosCompra.Last_Price_Data;
-            //Valor da venda em BRL
-            valorFinalBRL = quantidadeBtc * dadosVenda.Last_Price_Data;
-        }
 
-        else //Cenario onde o valor inical precisa ser convertido.
+            if (dadosCompra != null)
+            {
+                quantidadeBtc = Result_ValorInicial / dadosCompra.Last_Price_Data;
+                valorFinalBRL = quantidadeBtc * dadosVenda.Last_Price_Data;
+            }
+        }
+        // Caso 2: Compra com dados históricos (anteriores à API)
+        else
         {
-            
-            dadosCompra = coins.FirstOrDefault(c => c.Date == dataCompra);
+            dadosCompra = coins.FirstOrDefault(c => c.Date.Date == dataCompra.Date);
+
+            if (dadosCompra != null)
+            {
+                var cotacaoCompra = CotacaoAnterior.ContainsKey(dadosCompra.Date.Year)
+                    ? CotacaoAnterior[dadosCompra.Date.Year]
+                    : 1;
+
+                double valorEmUSD = Result_ValorInicial / cotacaoCompra;
+
+                quantidadeBtc = valorEmUSD / dadosCompra.Last_Price_Data;
+
+                // dadosVenda pode ser tanto da API quanto da lista, mas já está tratado acima
+                valorFinalBRL = quantidadeBtc * dadosVenda.Last_Price_Data;
+            }
         }
-
-
-
-
 
         return valorFinalBRL;
     }
+
+    // async Task<double> CalcularGanhosViaApi(DateTime dataCompra, DateTime dataVenda)
+    // {
+    //     double valorFinalBRL = 0;
+    //     CoinData dadosCompra;
+    //     double quantidadeBtc = 0;
+
+    //     var dadosVenda = await BinanceApiService.CotacaoBtcDataEspecifica(dataVenda); // Já em BRL
+
+    //     if (dataCompra >= ApiMinDate)
+    //     {
+    //         // Valor da API já em BRL
+    //         dadosCompra = await BinanceApiService.CotacaoBtcDataEspecifica(dataCompra);
+
+    //         if (dadosCompra != null)
+    //         {
+    //             // Calcula qtde de BTC comprada com o valor inicial (em BRL)
+    //             quantidadeBtc = Result_ValorInicial / dadosCompra.Last_Price_Data;
+
+    //             // Valor da venda (em BRL)
+    //             valorFinalBRL = quantidadeBtc * dadosVenda.Last_Price_Data;
+    //         }
+    //     }
+    //     else // Cenário onde a data é anterior à ApiMinDate: usa dados históricos
+    //     {
+    //         dadosCompra = coins.FirstOrDefault(c => c.Date.Date == dataCompra.Date);
+
+    //         if (dadosCompra != null)
+    //         {
+    //             // Pega a cotação do dólar na data de compra
+    //             var cotacaoCompra = CotacaoAnterior.ContainsKey(dadosCompra.Date.Year)
+    //                 ? CotacaoAnterior[dadosCompra.Date.Year]
+    //                 : 1;
+
+    //             // Converte BRL para USD
+    //             double valorEmUSD = Result_ValorInicial / cotacaoCompra;
+
+    //             // Calcula quanto de BTC conseguiria comprar
+    //             quantidadeBtc = valorEmUSD / dadosCompra.Last_Price_Data;
+
+    //             // Valor da venda (em BRL, já que a API retorna em BRL)
+    //             valorFinalBRL = quantidadeBtc * dadosVenda.Last_Price_Data;
+    //         }
+    //     }
+
+    //     return valorFinalBRL;
+    // }
+
 
     void CalcularPorcentagem()
     {
         if (Result_ValorInicial == 0)
         {
             Percent_LucroPrej = 0;
-            ProgressColor = Color.Primary;
+
         }
         else
         {
@@ -849,6 +922,12 @@ Style="background-color: #111b21; color: #ffffff">
                 Percent_LucroPrej = (decimal)((Result_ValorFinal - resultValorInicial) / resultValorInicial) * 100;
             }
         }
+    }
+
+    void AjustarCorResultados()
+    {
+        if(Percent_LucroPrej == 0)
+            ProgressColor = Color.Primary;
 
         if (Percent_LucroPrej > 0)
         {
@@ -939,7 +1018,9 @@ Style="background-color: #111b21; color: #ffffff">
 
     void AtualizarResultados(double valorFinal, MudColor cor)
     {
-        DiferenceResult = (valorFinal - Result_ValorInicial).ToString("N2");
+        double parsadoResultVi = double.Parse(ResultVI);
+
+        DiferenceResult = (valorFinal - parsadoResultVi).ToString("N2");
         Result_ValorFinal = valorFinal;
         color = cor;
     }
