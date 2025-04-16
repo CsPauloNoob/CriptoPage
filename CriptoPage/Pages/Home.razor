@@ -303,6 +303,7 @@ Style="background-color: #111b21; color: #ffffff">
                                 Culture="@(new CultureInfo("de-DE"))"/>
 
                             <MudText Class="pt-2" Align="Align.Center">BTC</MudText>
+                            
                             <MudSwitch Label="BRL"
                             UncheckedColor="Color.Warning"
                             Color="Color.Success"
@@ -781,16 +782,16 @@ Style="background-color: #111b21; color: #ffffff">
         else  //Implementação de calculo de btc para real
         {
             //calcula quanto a qtde de btc csuta em dolar
-            double btcValorUsdCompra = dadosCompra.Last_Price_Data / Result_ValorInicial;
+            double btcValorUsdCompra = dadosCompra.Last_Price_Data * Result_ValorInicial;
             
             //Converte para BRL
             double btcValorBrlCompra = btcValorUsdCompra * cotacaoCompra;
 
-            double btcValorUsdVenda = dadosVenda.Last_Price_Data / Result_ValorInicial;
+            double btcValorUsdVenda = dadosVenda.Last_Price_Data * Result_ValorInicial;
 
             double btcValorBrlVenda = btcValorUsdVenda * cotacaoVenda;
-
-            //Result_ValorInicial = btcValorBrlCompra;
+            
+            ResultVI = btcValorBrlCompra.ToString("N2");
             valorFinalBRL = btcValorBrlVenda;
 
         }
@@ -839,7 +840,14 @@ Style="background-color: #111b21; color: #ffffff">
         }
         else
         {
-            Percent_LucroPrej = (decimal)((Result_ValorFinal - Result_ValorInicial) / Result_ValorInicial) * 100; 
+            if(IsBRL)
+                Percent_LucroPrej = (decimal)((Result_ValorFinal - Result_ValorInicial) / Result_ValorInicial) * 100;
+
+            else
+            {
+                var resultValorInicial = double.Parse(ResultVI);
+                Percent_LucroPrej = (decimal)((Result_ValorFinal - resultValorInicial) / resultValorInicial) * 100;
+            }
         }
 
         if (Percent_LucroPrej > 0)
@@ -860,7 +868,9 @@ Style="background-color: #111b21; color: #ffffff">
         ActualCurrency = "R$ ";
 
         ResultVF = ActualCurrency + Result_ValorFinal.ToString("N2");
-        ResultVI = ActualCurrency + Result_ValorInicial.ToString("N2");
+        ResultVI = IsBRL ? 
+            ActualCurrency + Result_ValorInicial.ToString("N2") : 
+            ResultVI;
         DiferenceResult = ActualCurrency + DiferenceResult;
     }
 
