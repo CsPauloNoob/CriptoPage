@@ -366,42 +366,6 @@ Style="background-color: #111b21; color: #ffffff">
                                     <MudText Class="pr-2" Align="Align.End" Style="@($"color: {color};")">@Rentabilidade</MudText>
                                 </MudPaper>
 
-                                @* <MudTextField *@
-                                @*     @bind-Value="ResultVI" *@
-                                @*     Style="background-color: #111b21;" *@
-                                @*     Variant="Variant.Filled" *@
-                                @*     Label="Valor Inicial" *@
-                                @*     ShrinkLabel="true" *@
-                                @*     ReadOnly="true"/> *@
-                                @* *@
-                                @* <MudTextField *@
-                                @*     Value="ResultVF" *@
-                                @*     Style="background-color: white" *@
-                                @*     Variant="Variant.Filled" *@
-                                @*     AdornmentColor="Color.Dark" *@
-                                @*     Label="Valor Final" *@
-                                @*     ShrinkLabel="true" *@
-                                @*     ReadOnly="true" *@
-                                @*     T="string"/> *@
-                                @* *@
-                                @* <MudTextField *@
-                                @*     Variant="Variant.Filled" *@
-                                @*     Style="@($"background-color: white; color: {color};")" *@
-                                @*     Label="Lucro/Prejuízo" *@
-                                @*     Value="DiferenceResult" *@
-                                @*     ShrinkLabel="true" *@
-                                @*     ReadOnly="true" *@
-                                @*     T="string"/> *@
-                                @* *@
-                                @* <MudTextField *@
-                                @*     Variant="Variant.Filled" *@
-                                @*     Style="@($"background-color: white; color: {color};")" *@
-                                @*     Label="Rentabilidade" *@
-                                @*     Value="Rentabilidade" *@
-                                @*     ShrinkLabel="true" *@
-                                @*     ReadOnly="true" *@
-                                @*     T="string"/> *@
-
                                 <MudText Class="mb-n2">Variação no Período</MudText>
 
                                 <MudProgressLinear
@@ -563,39 +527,6 @@ Style="background-color: #111b21; color: #ffffff">
                                     <MudText Class="pr-2" Align="Align.End" Style="@($"color: {color};")">@Rentabilidade</MudText>
                                 </MudPaper>
 
-
-                                @* <MudTextField @bind-Value="ResultVI" *@
-                                @* Style="background-color: white" *@
-                                @* Variant="Variant.Filled" *@
-                                @* Label="Valor Inicial" *@
-                                @* ShrinkLabel="true" *@
-                                @* ReadOnly="true" /> *@
-                                @* *@
-                                @* <MudTextField Value="ResultVF" *@
-                                @* Style="background-color: white" *@
-                                @* Variant="Variant.Filled" *@
-                                @* AdornmentColor="Color.Dark" *@
-                                @* Label="Valor Final" *@
-                                @* ShrinkLabel="true" *@
-                                @* ReadOnly="true" *@
-                                @* T="string" /> *@
-
-                                @* <MudTextField Variant="Variant.Filled" *@
-                                @* Style="@($"background-color: white; color: {color};")" *@
-                                @* Label="Lucro/Prejuízo" *@
-                                @* Value="DiferenceResult" *@
-                                @* ShrinkLabel="true" *@
-                                @* ReadOnly="true" *@
-                                @* T="string" /> *@
-                                @* *@
-                                @* <MudTextField Variant="Variant.Filled" *@
-                                @* Style="@($"background-color: white; color: {color};")" *@
-                                @* Label="Rentabilidade" *@
-                                @* Value="Rentabilidade" *@
-                                @* ShrinkLabel="true" *@
-                                @* ReadOnly="true" *@
-                                @* T="string" /> *@
-
                                 <MudText Class="mb-n2">Variação no Período</MudText>
 
                                 <MudProgressLinear Style="background-color: white; height: 24px;"
@@ -681,6 +612,7 @@ Style="background-color: #111b21; color: #ffffff">
     int IndexArrowBtc;
     int IndexArrowUsdt;
     string[] ArrowIcons = new string[] { Icons.Material.Rounded.ArrowUpward, Icons.Material.Rounded.ArrowDownward };
+    string SinalOperacao = "";
 
     DateTime? _dataCompra = null;
     DateTime? _dataVenda = null;
@@ -742,8 +674,9 @@ Style="background-color: #111b21; color: #ffffff">
             Result_ValorFinal = 0;
         else
         {
-            AjustarMoedas();
             CalcularPorcentagem();
+            AjustarSinal();
+            AjustarMoedas();
             AjustarCorResultados();
         }
     }
@@ -783,21 +716,23 @@ Style="background-color: #111b21; color: #ffffff">
         {
             //calcula quanto a qtde de btc csuta em dolar
             double btcValorUsdCompra = dadosCompra.Last_Price_Data * Result_ValorInicial;
-            
+
             //Converte para BRL
             double btcValorBrlCompra = btcValorUsdCompra * cotacaoCompra;
 
             double btcValorUsdVenda = dadosVenda.Last_Price_Data * Result_ValorInicial;
 
             double btcValorBrlVenda = btcValorUsdVenda * cotacaoVenda;
-            
+
             ResultVI = btcValorBrlCompra.ToString("N2");
             valorFinalBRL = btcValorBrlVenda;
 
         }
-        
+
         return valorFinalBRL;
     }
+
+
 
 
     async Task<double> CalcularGanhosViaApi(DateTime dataCompra, DateTime dataVenda)
@@ -822,86 +757,86 @@ Style="background-color: #111b21; color: #ffffff">
         if (dadosVenda == null)
             return 0;
 
-        // Caso 1: Compra via API (dados recentes)
-        if (dataCompra >= ApiMinDate)
+        if (IsBRL)
         {
-            dadosCompra = await BinanceApiService.CotacaoBtcDataEspecifica(dataCompra);
 
-            if (dadosCompra != null)
+            // Caso 1: Compra via API (dados recentes)
+            if (dataCompra >= ApiMinDate)
             {
-                quantidadeBtc = Result_ValorInicial / dadosCompra.Last_Price_Data;
-                valorFinalBRL = quantidadeBtc * dadosVenda.Last_Price_Data;
+                dadosCompra = await BinanceApiService.CotacaoBtcDataEspecifica(dataCompra);
+
+                if (dadosCompra != null)
+                {
+                    quantidadeBtc = Result_ValorInicial / dadosCompra.Last_Price_Data;
+                    valorFinalBRL = quantidadeBtc * dadosVenda.Last_Price_Data;
+                    ResultVI = Result_ValorInicial.ToString("N2");
+                }
+            }
+
+            // Caso 2: Compra com dados históricos (anteriores à API)
+            else
+            {
+                dadosCompra = coins.FirstOrDefault(c => c.Date.Date == dataCompra.Date);
+
+                if (dadosCompra != null)
+                {
+                    var cotacaoCompra = CotacaoAnterior.ContainsKey(dadosCompra.Date.Year)
+                        ? CotacaoAnterior[dadosCompra.Date.Year]
+                        : 1;
+
+                    double valorEmUSD = Result_ValorInicial / cotacaoCompra;
+
+                    quantidadeBtc = valorEmUSD / dadosCompra.Last_Price_Data;
+
+                    // dadosVenda pode ser tanto da API quanto da lista, mas já está tratado acima
+                    valorFinalBRL = quantidadeBtc * dadosVenda.Last_Price_Data;
+                    ResultVI = Result_ValorInicial.ToString("N2");
+                }
             }
         }
-        // Caso 2: Compra com dados históricos (anteriores à API)
-        else
-        {
-            dadosCompra = coins.FirstOrDefault(c => c.Date.Date == dataCompra.Date);
 
-            if (dadosCompra != null)
+        else //Lógica para compra de btc
+        {
+
+
+            if(dataCompra <= ApiMinDate)
             {
+                dadosCompra = coins.FirstOrDefault(c => c.Date.Date == dataCompra.Date);
+
                 var cotacaoCompra = CotacaoAnterior.ContainsKey(dadosCompra.Date.Year)
                     ? CotacaoAnterior[dadosCompra.Date.Year]
                     : 1;
 
-                double valorEmUSD = Result_ValorInicial / cotacaoCompra;
+                var valorBtcBlr = dadosCompra.Last_Price_Data * cotacaoCompra;
 
-                quantidadeBtc = valorEmUSD / dadosCompra.Last_Price_Data;
+                var valorCompraBtcBrl = valorBtcBlr * Result_ValorInicial;
 
-                // dadosVenda pode ser tanto da API quanto da lista, mas já está tratado acima
-                valorFinalBRL = quantidadeBtc * dadosVenda.Last_Price_Data;
+                ResultVI = valorCompraBtcBrl.ToString("N2");
+
+                double valorBrl = Result_ValorInicial * dadosVenda.Last_Price_Data;
+
+                valorFinalBRL = valorBrl;
+            }
+
+            else
+            {
+                dadosCompra = await BinanceApiService.CotacaoBtcDataEspecifica(dataCompra);
+
+                var totalComprado = dadosCompra.Last_Price_Data * Result_ValorInicial;
+
+                double valorBrl = Result_ValorInicial * dadosVenda.Last_Price_Data;
+
+                valorFinalBRL = valorBrl;
+
+                ResultVI = totalComprado.ToString("N2");
             }
         }
+
+        
 
         return valorFinalBRL;
     }
 
-    // async Task<double> CalcularGanhosViaApi(DateTime dataCompra, DateTime dataVenda)
-    // {
-    //     double valorFinalBRL = 0;
-    //     CoinData dadosCompra;
-    //     double quantidadeBtc = 0;
-
-    //     var dadosVenda = await BinanceApiService.CotacaoBtcDataEspecifica(dataVenda); // Já em BRL
-
-    //     if (dataCompra >= ApiMinDate)
-    //     {
-    //         // Valor da API já em BRL
-    //         dadosCompra = await BinanceApiService.CotacaoBtcDataEspecifica(dataCompra);
-
-    //         if (dadosCompra != null)
-    //         {
-    //             // Calcula qtde de BTC comprada com o valor inicial (em BRL)
-    //             quantidadeBtc = Result_ValorInicial / dadosCompra.Last_Price_Data;
-
-    //             // Valor da venda (em BRL)
-    //             valorFinalBRL = quantidadeBtc * dadosVenda.Last_Price_Data;
-    //         }
-    //     }
-    //     else // Cenário onde a data é anterior à ApiMinDate: usa dados históricos
-    //     {
-    //         dadosCompra = coins.FirstOrDefault(c => c.Date.Date == dataCompra.Date);
-
-    //         if (dadosCompra != null)
-    //         {
-    //             // Pega a cotação do dólar na data de compra
-    //             var cotacaoCompra = CotacaoAnterior.ContainsKey(dadosCompra.Date.Year)
-    //                 ? CotacaoAnterior[dadosCompra.Date.Year]
-    //                 : 1;
-
-    //             // Converte BRL para USD
-    //             double valorEmUSD = Result_ValorInicial / cotacaoCompra;
-
-    //             // Calcula quanto de BTC conseguiria comprar
-    //             quantidadeBtc = valorEmUSD / dadosCompra.Last_Price_Data;
-
-    //             // Valor da venda (em BRL, já que a API retorna em BRL)
-    //             valorFinalBRL = quantidadeBtc * dadosVenda.Last_Price_Data;
-    //         }
-    //     }
-
-    //     return valorFinalBRL;
-    // }
 
 
     void CalcularPorcentagem()
@@ -923,6 +858,8 @@ Style="background-color: #111b21; color: #ffffff">
             }
         }
     }
+
+
 
     void AjustarCorResultados()
     {
@@ -950,7 +887,7 @@ Style="background-color: #111b21; color: #ffffff">
         ResultVI = IsBRL ? 
             ActualCurrency + Result_ValorInicial.ToString("N2") : 
             ResultVI;
-        DiferenceResult = ActualCurrency + DiferenceResult;
+        DiferenceResult = SinalOperacao + ActualCurrency + DiferenceResult;
     }
 
     void ParseResults()
@@ -1092,4 +1029,14 @@ Style="background-color: #111b21; color: #ffffff">
 
         return result;
     }
+
+
+    public void AjustarSinal()
+    {
+        if (Percent_LucroPrej > 0)
+        {
+            SinalOperacao = "+ ";
+        }
+    }
+
 }
